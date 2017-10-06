@@ -12,12 +12,19 @@ export default class Rook extends Piece {
         let rookMoves= new Array();
         for (let i = 0; i < 8; i++ ){
             if(i != location.row)
+            {
+                if(board.getPiece(Square.at(i, location.col)) != undefined)
+                    break
                 rookMoves.push(Square.at(i, location.col))
+            }
         }
         for (let i = 0; i < 8; i++) {
-            if(i != location.col)
-                rookMoves.push(Square.at(location.row , i))
+            if(i != location.col) {
+                if(board.getPiece(Square.at(location.row , i)) != undefined) 
+                    break
+            rookMoves.push(Square.at(location.row , i))
             }
+        }
     return rookMoves;
     }
 }

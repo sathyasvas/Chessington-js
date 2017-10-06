@@ -11,20 +11,24 @@ export default class Pawn extends Piece {
         let location = board.findPiece(this)
         let pawnAvailableMoves = new Array();
         if (this.player === Player.WHITE) {
-            if(board.getPiece(Square.at(location.row + 1, location.col)) == undefined) {
-                console.log("Inside GET White");
+            if(location.row < 7 && board.getPiece(Square.at(location.row + 1, location.col)) == undefined) {
                 pawnAvailableMoves.push(Square.at(location.row + 1, location.col))
                 if(location.row == 1 && (board.getPiece(Square.at(location.row + 2, location.col)) == undefined))  
                     pawnAvailableMoves.push(Square.at(location.row + 2, location.col))
+                if(board.getPiece(Square.at(location.row + 1, location.col - 1)) != undefined)
+                    pawnAvailableMoves.push(Square.at(location.row + 1, location.col - 1))
+                if(board.getPiece(Square.at(location.row + 1, location.col + 1)) != undefined)
+                    pawnAvailableMoves.push(Square.at(location.row + 1, location.col + 1))
             }
         } else {
-            if(board.getPiece(Square.at(location.row - 1, location.col)) == undefined) {
-                console.log("Inside GET Black");
+            if(location.row > 0 && board.getPiece(Square.at(location.row - 1, location.col)) == undefined) {
                 pawnAvailableMoves.push(Square.at(location.row - 1, location.col))
-            if(location.row == 6 && (board.getPiece(Square.at(location.row - 2, location.col)) == undefined)) {
-                console.log("Inside Black 2 spaces");
+            if(location.row == 6 && (board.getPiece(Square.at(location.row - 2, location.col)) == undefined))
                 pawnAvailableMoves.push(Square.at(location.row - 2, location.col))
-            }
+            if(board.getPiece(Square.at(location.row + 1, location.col - 1)) != undefined)
+                pawnAvailableMoves.push(Square.at(location.row - 1, location.col + 1))
+            if(board.getPiece(Square.at(location.row - 1, location.col - 1)) != undefined)
+                pawnAvailableMoves.push(Square.at(location.row - 1, location.col - 1))
         }
         console.log(pawnAvailableMoves);
         }

@@ -3,6 +3,7 @@ import Rook from '../../../src/engine/pieces/rook';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
+import Pawn from '../../../src/engine/pieces/rook';
 
 describe('Rook', () => {
 
@@ -32,5 +33,22 @@ describe('Rook', () => {
         const moves = rook.getAvailableMoves(board);
 
         moves.should.have.length(14);
+    });
+
+    it('cannot move if there is a blocking piece', () => {
+        const rook = new Rook(Player.WHITE);
+        const blockingPiece = new Pawn(Player.WHITE);
+        board.setPiece(Square.at(1, 2), rook);
+        board.setPiece(Square.at(3, 2), blockingPiece);
+        const moves = rook.getAvailableMoves(board);
+
+        const expectedMoves = [
+            // Horizontal
+            Square.at(1, 0), Square.at(1, 1), Square.at(1, 3), Square.at(1, 4), Square.at(1, 5), Square.at(1, 6), Square.at(1, 7),
+            // Vertical
+            Square.at(0, 2), Square.at(2, 2)
+        ];
+
+        moves.should.have.length(9);
     });
 });
