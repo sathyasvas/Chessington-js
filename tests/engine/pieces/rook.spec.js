@@ -1,9 +1,9 @@
 import 'chai/register-should';
 import Rook from '../../../src/engine/pieces/rook';
+import Pawn from '../../../src/engine/pieces/pawn';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
-import Pawn from '../../../src/engine/pieces/rook';
 
 describe('Rook', () => {
 
@@ -35,20 +35,25 @@ describe('Rook', () => {
         moves.should.have.length(14);
     });
 
-    it('cannot move if there is a blocking piece', () => {
+    it('cannot move through friendly pieces', () => {
         const rook = new Rook(Player.WHITE);
-        const blockingPiece = new Pawn(Player.WHITE);
-        board.setPiece(Square.at(1, 2), rook);
-        board.setPiece(Square.at(3, 2), blockingPiece);
+        const friendlyPiece = new Pawn(Player.WHITE);
+        board.setPiece(Square.at(4, 4), rook);
+        board.setPiece(Square.at(4, 6), friendlyPiece);
+
         const moves = rook.getAvailableMoves(board);
 
-        const expectedMoves = [
-            // Horizontal
-            Square.at(1, 0), Square.at(1, 1), Square.at(1, 3), Square.at(1, 4), Square.at(1, 5), Square.at(1, 6), Square.at(1, 7),
-            // Vertical
-            Square.at(0, 2), Square.at(2, 2)
-        ];
+        moves.should.not.deep.include(Square.at(4, 7));
+    });
 
-        moves.should.have.length(9);
+    it('cannot move through opposing pieces', () => {
+        const rook = new Rook(Player.WHITE);
+        const opposingPiece = new Pawn(Player.BLACK);
+        board.setPiece(Square.at(4, 4), rook);
+        board.setPiece(Square.at(4, 6), opposingPiece);
+
+        const moves = rook.getAvailableMoves(board);
+
+        moves.should.not.deep.include(Square.at(4, 7));
     });
 });
